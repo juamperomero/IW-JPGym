@@ -3,6 +3,8 @@ package com.example.application;
 import com.example.application.data.User;
 import com.example.application.service.UserManagementService;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.dependency.CssImport;
+import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H4;
 import com.vaadin.flow.component.notification.Notification;
@@ -19,8 +21,8 @@ import java.io.Serial;
 
 @PageTitle("Registrate User")
 @Route(value = "register")
-//@RouteAlias("")
 @AnonymousAllowed
+@CssImport("./styles/shared-styles.css")  // Archivo CSS para estilos personalizados
 public class RegisterView extends VerticalLayout {
 
     @Serial
@@ -35,7 +37,6 @@ public class RegisterView extends VerticalLayout {
     private final PasswordField password;
     private final PasswordField password2;
 
-
     private final Button register;
     private final H4 status;
 
@@ -44,60 +45,60 @@ public class RegisterView extends VerticalLayout {
     public RegisterView(UserManagementService service) {
         this.service = service;
 
+        // Crear los campos de entrada
         title = new H1("Register User");
         username = new TextField("Your username");
-        username.setId("username");
-
         email = new EmailField("Your email");
-        email.setId("email");
-
         password = new PasswordField("Your password");
-        password.setId("password");
-
         password2 = new PasswordField("Repeat your password");
-        password2.setId("password2");
 
+        // Crear el botón de registro
         register = new Button("Register");
-        register.setId("register");
+        register.addClassName("register-button");  // Añadir clase CSS personalizada
 
+        // Crear el mensaje de estado
         status = new H4();
-        status.setId("status");
         status.setVisible(false);
 
-        setMargin(true);
+        // Estilizar y encapsular en un Div (tarjeta)
+        Div card = new Div();
+        card.addClassName("register-card");
+        card.add(title, username, email, password, password2, register, status);
 
-        add(title, username, email, password, password2, register, status);
+        // Crear un layout para centrar la tarjeta
+        VerticalLayout layout = new VerticalLayout(card);
+        layout.setAlignItems(Alignment.CENTER);
+        layout.setJustifyContentMode(JustifyContentMode.CENTER);
+        layout.setSizeFull();  // Asegurar que ocupe toda la pantalla
 
-        register.addClickListener(e -> onRegisterButtonClick());
+        // Añadir el layout a la vista
+        add(layout);
 
+        // Configuración del binder
         binder = new BeanValidationBinder<>(User.class);
         binder.bindInstanceFields(this);
-
         binder.setBean(new User());
+
+        // Evento del botón de registro
+        register.addClickListener(e -> onRegisterButtonClick());
     }
 
     /**
      * Handler
      */
     public void onRegisterButtonClick() {
-
-        if (binder.validate().isOk() & password.getValue().equals(password2.getValue())) {
+        if (binder.validate().isOk() && password.getValue().equals(password2.getValue())) {
             if (service.registerUser(binder.getBean())) {
-                status.setText("Great. Please look at your mail inbox!");
+                status.setText("Great. Please check your email inbox!");
                 status.setVisible(true);
                 binder.setBean(new User());
                 password2.setValue("");
             } else {
-                Notification.show("Please, the username is already in use");
-
+                Notification.show("Username is already in use");
             }
-
-
         } else {
             Notification.show("Please, check input data");
         }
-
     }
-
 }
 
