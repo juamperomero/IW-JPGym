@@ -4,6 +4,7 @@ import com.example.application.data.ClassEntity;
 import com.example.application.repository.ClassRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -33,5 +34,10 @@ public class ClassService {
 
     public void deleteClass(UUID id) {
         classRepository.deleteById(id);
+    }
+
+    @Transactional
+    public ClassEntity findById(UUID id) {
+        return classRepository.findById(id).orElse(null);
     }
 }

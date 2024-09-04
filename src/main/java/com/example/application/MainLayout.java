@@ -60,6 +60,7 @@ public class MainLayout extends AppLayout {
         // Añadir vistas comunes
         nav.addItem(new SideNavItem("Inicio", MainView.class, new Icon("lumo", "home")));
         nav.addItem(new SideNavItem("Clases", ClassesView.class, new Icon("lumo", "calendar")));
+        nav.addItem(new SideNavItem("Mis clases", UserReservationView.class, new Icon("lumo", "calendar")));
         nav.addItem(new SideNavItem("Instructores", InstructorsView.class, new Icon("lumo", "users")));
 
         // Añadir vistas solo para administradores

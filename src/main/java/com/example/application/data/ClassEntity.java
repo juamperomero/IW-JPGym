@@ -1,6 +1,8 @@
 package com.example.application.data;
 
 import jakarta.persistence.*;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.HashSet;
 import java.util.Set;
 import java.time.LocalDateTime;
@@ -23,7 +25,7 @@ public class ClassEntity {
     @Column(name = "schedule", nullable = false)
     private LocalDateTime schedule;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "instructor_id", nullable = false)
     private Instructor instructor;
 
