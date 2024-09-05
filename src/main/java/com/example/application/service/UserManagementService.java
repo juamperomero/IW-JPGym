@@ -3,6 +3,7 @@ package com.example.application.service;
 import com.example.application.data.Role;
 import com.example.application.data.User;
 import com.example.application.repository.UserRepository;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -53,6 +54,8 @@ public class UserManagementService implements UserDetailsService {
         if (!user.isPresent()) {
             throw new UsernameNotFoundException("No user present with username: " + username);
         } else {
+            // Forzar la inicialización de reservedClasses
+            Hibernate.initialize(user.get().getReservedClasses());
             return user.get();
         }
     }
@@ -73,7 +76,7 @@ public class UserManagementService implements UserDetailsService {
 
     }
 
-
+    @Transactional(readOnly = true)
     public Optional<User> loadUserById(UUID userId) {
         return repository.findById(userId);
     }
@@ -90,5 +93,11 @@ public class UserManagementService implements UserDetailsService {
 
     public int count() {
         return (int) repository.count();
+    }
+
+    @Transactional(readOnly = true)
+    public User getUserWithReservations(UUID userId) {
+        return repository.findByIdWithReservations(userId)
+                .orElse(null);
     }
 }

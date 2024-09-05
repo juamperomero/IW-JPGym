@@ -28,6 +28,7 @@ public class ClassService {
         return classRepository.findById(id);
     }
 
+    @Transactional
     public ClassEntity saveClass(ClassEntity classEntity) {
         return classRepository.save(classEntity);
     }

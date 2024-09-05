@@ -2,9 +2,11 @@ package com.example.application.service;
 
 import com.example.application.data.Reservation;
 import com.example.application.data.ReservationStatus;
+import com.example.application.data.User;
 import com.example.application.repository.ReservationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -29,6 +31,7 @@ public class ReservationService {
         return reservationRepository.findById(id);
     }
 
+    @Transactional
     public Reservation saveReservation(Reservation reservation) {
         reservation.setReservationTime(LocalDateTime.now());
         reservation.setStatus(ReservationStatus.PENDIENTE);
@@ -41,6 +44,11 @@ public class ReservationService {
             reservation.get().setStatus(status);
             reservationRepository.save(reservation.get());
         }
+    }
+
+    @Transactional(readOnly = true)
+    public List<Reservation> findReservationsByUser(User user) {
+        return reservationRepository.findByUser(user);
     }
 
     public void deleteReservation(UUID id) {

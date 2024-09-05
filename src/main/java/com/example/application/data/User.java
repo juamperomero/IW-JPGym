@@ -46,12 +46,7 @@ public class User implements UserDetails {
 
     private String registerCode = "";
 
-    @ManyToMany
-    @JoinTable(
-            name = "user_class", // Nombre de la tabla intermedia
-            joinColumns = @JoinColumn(name = "user_id"), // Columna que referencia al usuario
-            inverseJoinColumns = @JoinColumn(name = "class_id") // Columna que referencia a la clase
-    )
+    @ManyToMany(mappedBy = "attendees", fetch = FetchType.EAGER)
     private Set<ClassEntity> reservedClasses = new HashSet<>();
 
 

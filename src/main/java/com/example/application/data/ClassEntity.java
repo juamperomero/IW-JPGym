@@ -13,7 +13,7 @@ import java.util.UUID;
 public class ClassEntity {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private UUID id;
 
     @Column(name = "name", nullable = false)
@@ -32,7 +32,12 @@ public class ClassEntity {
     @Column(name = "capacity", nullable = false)
     private int capacity;
 
-    @ManyToMany(mappedBy = "reservedClasses")
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "user_class", // Nombre de la tabla intermedia
+            joinColumns = @JoinColumn(name = "class_id"), // Columna que referencia a la clase
+            inverseJoinColumns = @JoinColumn(name = "user_id") // Columna que referencia al usuario
+    )
     private Set<User> attendees = new HashSet<>();
 
     // Getters and Setters

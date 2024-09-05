@@ -65,6 +65,9 @@ public class ClassesView extends VerticalLayout {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userService.loadUserByUsername(username);
 
+        // Carga la clase con la lista de asistentes para evitar LazyInitializationException
+        classEntity = classService.findById(classEntity.getId());
+
         if (classEntity.getCapacity() > classEntity.getAttendees().size()) {
             Reservation reservation = new Reservation();
             reservation.setClassEntity(classEntity);
