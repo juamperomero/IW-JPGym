@@ -14,7 +14,7 @@ public class ClassEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private UUID id;
+    private Long id;
 
     @Column(name = "name", nullable = false)
     private String name;
@@ -32,7 +32,7 @@ public class ClassEntity {
     @Column(name = "capacity", nullable = false)
     private int capacity;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_class", // Nombre de la tabla intermedia
             joinColumns = @JoinColumn(name = "class_id"), // Columna que referencia a la clase
@@ -41,11 +41,11 @@ public class ClassEntity {
     private Set<User> attendees = new HashSet<>();
 
     // Getters and Setters
-    public UUID getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

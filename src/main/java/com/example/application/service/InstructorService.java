@@ -23,7 +23,7 @@ public class InstructorService {
         return instructorRepository.findAll();
     }
 
-    public Optional<Instructor> findInstructorById(UUID id) {
+    public Optional<Instructor> findInstructorById(Long id) {
         return instructorRepository.findById(id);
     }
 
@@ -31,7 +31,7 @@ public class InstructorService {
         return instructorRepository.save(instructor);
     }
 
-    public void deleteInstructor(UUID id) {
+    public void deleteInstructor(Long id) {
         instructorRepository.deleteById(id);
     }
 }

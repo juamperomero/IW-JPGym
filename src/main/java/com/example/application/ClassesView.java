@@ -17,6 +17,7 @@ import com.vaadin.flow.router.Route;
 import jakarta.annotation.security.PermitAll;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -61,6 +62,7 @@ public class ClassesView extends VerticalLayout {
         return reserveButton;
     }
 
+    @Transactional
     private void reserveClass(ClassEntity classEntity) {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userService.loadUserByUsername(username);

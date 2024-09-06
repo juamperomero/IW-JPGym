@@ -11,7 +11,7 @@ public class Instructor {
 
     @Id
     @GeneratedValue
-    private UUID id;
+    private Long id;
 
     @Column(name = "name", nullable = false)
     private String name;
@@ -20,11 +20,11 @@ public class Instructor {
     private Set<ClassEntity> classes = new HashSet<>();
 
     // Getters and Setters
-    public UUID getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

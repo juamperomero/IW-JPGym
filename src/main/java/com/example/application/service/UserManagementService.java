@@ -25,6 +25,8 @@ public class UserManagementService implements UserDetailsService {
     private final EmailService emailService;
     private final PasswordEncoder passwordEncoder;
 
+    private UserRepository userRepository;
+
     @Autowired
     public UserManagementService(UserRepository repository, EmailService emailService, PasswordEncoder passwordEncoder) {
         this.repository = repository;
@@ -95,9 +97,14 @@ public class UserManagementService implements UserDetailsService {
         return (int) repository.count();
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public User getUserWithReservations(UUID userId) {
-        return repository.findByIdWithReservations(userId)
-                .orElse(null);
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+        // Acceder a la colección Lazy para inicializarla
+        Hibernate.initialize(user.getReservedClasses());
+
+        return user;
     }
 }

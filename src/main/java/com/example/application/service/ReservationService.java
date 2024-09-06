@@ -27,7 +27,7 @@ public class ReservationService {
         return reservationRepository.findAll();
     }
 
-    public Optional<Reservation> findReservationById(UUID id) {
+    public Optional<Reservation> findReservationById(Long id) {
         return reservationRepository.findById(id);
     }
 
@@ -38,7 +38,7 @@ public class ReservationService {
         return reservationRepository.save(reservation);
     }
 
-    public void updateReservationStatus(UUID id, ReservationStatus status) {
+    public void updateReservationStatus(Long id, ReservationStatus status) {
         Optional<Reservation> reservation = reservationRepository.findById(id);
         if (reservation.isPresent()) {
             reservation.get().setStatus(status);
@@ -51,7 +51,7 @@ public class ReservationService {
         return reservationRepository.findByUser(user);
     }
 
-    public void deleteReservation(UUID id) {
+    public void deleteReservation(Long id) {
         reservationRepository.deleteById(id);
     }
 }
