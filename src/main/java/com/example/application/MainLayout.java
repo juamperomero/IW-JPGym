@@ -65,6 +65,7 @@ public class MainLayout extends AppLayout {
 
         // Añadir vistas solo para administradores
         if (authenticatedUser.get().map(User::getRoles).map(roles -> roles.contains(Role.ADMIN)).orElse(false)) {
+            nav.addItem(new SideNavItem("Peticiones", AdminRequestView.class, new Icon("lumo", "user")));
             nav.addItem(new SideNavItem("Gestionar Usuarios", AdminUsersView.class, new Icon("lumo", "user")));
             nav.addItem(new SideNavItem("Gestionar Clases", AdminClassesView.class, new Icon("lumo", "list")));
             nav.addItem(new SideNavItem("Gestionar Instructores", AdminInstructorsView.class, new Icon("lumo", "users")));

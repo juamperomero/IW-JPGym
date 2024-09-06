@@ -106,4 +106,21 @@ public class UserManagementService implements UserDetailsService {
 
         return user;
     }
+
+    public List<User> findAllUsers() {
+        return repository.findAll();
+    }
+
+    public User findById(UUID id) {
+        return repository.findById(id).orElse(null);
+    }
+    @Transactional
+    public void saveUser(User user) {
+        repository.save(user);
+    }
+
+    @Transactional
+    public void deleteUser(UUID id) {
+        repository.deleteById(id);
+    }
 }

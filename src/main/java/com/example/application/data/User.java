@@ -49,6 +49,8 @@ public class User implements UserDetails {
     @ManyToMany(mappedBy = "attendees", fetch = FetchType.EAGER)
     private Set<ClassEntity> reservedClasses = new HashSet<>();
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Reservation> reservations;
 
     public Set<ClassEntity> getReservedClasses() {
         return reservedClasses;

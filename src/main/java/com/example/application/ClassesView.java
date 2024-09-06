@@ -18,7 +18,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Route(value = "classes", layout = MainLayout.class)
 @PageTitle("Clases")
@@ -41,12 +44,20 @@ public class ClassesView extends VerticalLayout {
         grid.setItems(classes);
 
         // Definir los nombres de las columnas en español
-        grid.setColumns("name", "description", "schedule", "instructor.name", "capacity");
+        grid.setColumns("name", "description", "instructor.name");
         grid.getColumnByKey("name").setHeader("Nombre");
         grid.getColumnByKey("description").setHeader("Descripción");
-        grid.getColumnByKey("schedule").setHeader("Horario");
         grid.getColumnByKey("instructor.name").setHeader("Instructor");
-        grid.getColumnByKey("capacity").setHeader("Capacidad");
+
+        // Añadir columna personalizada para el horario
+        grid.addColumn(classEntity -> formatDateTime(classEntity.getSchedule()))
+                .setHeader("Horario");
+
+        // Añadir columna personalizada para la capacidad
+        grid.addColumn(classEntity -> {
+            long confirmedReservations = reservationService.findReservationsByClassEntityAndStatus(classEntity, ReservationStatus.CONFIRMADA).size();
+            return confirmedReservations + "/" + classEntity.getCapacity();
+        }).setHeader("Capacidad");
 
         // Añadir botón de reserva
         grid.addComponentColumn(this::createReserveButton).setHeader("Reservar");
@@ -75,15 +86,13 @@ public class ClassesView extends VerticalLayout {
             return;
         }
 
-        if (classEntity.getCapacity() > classEntity.getAttendees().size()) {
+        if (classEntity.getCapacity() > reservationService.findReservationsByClassEntityAndStatus(classEntity, ReservationStatus.CONFIRMADA).size()) {
             Reservation reservation = new Reservation();
             reservation.setClassEntity(classEntity);
             reservation.setUser(user);
+            reservation.setReservationTime(LocalDateTime.now()); // Establecer la hora de la reserva
             reservation.setStatus(ReservationStatus.PENDIENTE); // Estado de reserva pendiente
             reservationService.saveReservation(reservation);
-
-            classEntity.getAttendees().add(user);
-            classService.saveClass(classEntity);
 
             Notification.show("Reserva realizada con éxito.");
         } else {
@@ -95,5 +104,10 @@ public class ClassesView extends VerticalLayout {
         List<Reservation> userReservations = reservationService.findReservationsByUser(user);
         return userReservations.stream()
                 .anyMatch(reservation -> reservation.getClassEntity().getId().equals(classEntity.getId()));
+    }
+
+    private String formatDateTime(LocalDateTime dateTime) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm dd/MM/yyyy");
+        return dateTime.format(formatter);
     }
 }

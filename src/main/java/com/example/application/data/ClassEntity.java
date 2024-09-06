@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -39,6 +40,9 @@ public class ClassEntity {
             inverseJoinColumns = @JoinColumn(name = "user_id") // Columna que referencia al usuario
     )
     private Set<User> attendees = new HashSet<>();
+
+    @OneToMany(mappedBy = "classEntity", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Reservation> reservations;
 
     // Getters and Setters
     public Long getId() {
