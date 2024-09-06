@@ -58,4 +58,6 @@ public class ClassService {
         Hibernate.initialize(classEntity.getAttendees());
         return classEntity;
     }
+
+
 }

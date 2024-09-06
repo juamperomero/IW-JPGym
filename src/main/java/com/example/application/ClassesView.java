@@ -1,6 +1,5 @@
 package com.example.application;
 
-
 import com.example.application.data.ClassEntity;
 import com.example.application.data.Reservation;
 import com.example.application.data.ReservationStatus;
@@ -70,6 +69,12 @@ public class ClassesView extends VerticalLayout {
         // Carga la clase con la lista de asistentes para evitar LazyInitializationException
         classEntity = classService.findById(classEntity.getId());
 
+        // Validar si el usuario ya tiene una reserva para la misma clase
+        if (userHasReservationForClass(user, classEntity)) {
+            Notification.show("Ya tienes una reserva para esta clase.");
+            return;
+        }
+
         if (classEntity.getCapacity() > classEntity.getAttendees().size()) {
             Reservation reservation = new Reservation();
             reservation.setClassEntity(classEntity);
@@ -84,5 +89,11 @@ public class ClassesView extends VerticalLayout {
         } else {
             Notification.show("La clase está llena.");
         }
+    }
+
+    private boolean userHasReservationForClass(User user, ClassEntity classEntity) {
+        List<Reservation> userReservations = reservationService.findReservationsByUser(user);
+        return userReservations.stream()
+                .anyMatch(reservation -> reservation.getClassEntity().getId().equals(classEntity.getId()));
     }
 }

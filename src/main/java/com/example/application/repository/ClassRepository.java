@@ -9,4 +9,6 @@ import java.util.UUID;
 
 public interface ClassRepository extends JpaRepository<ClassEntity, Long> {
     Set<ClassEntity> findClassesByAttendees(User user);
+
+
 }

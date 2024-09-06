@@ -1,9 +1,12 @@
 package com.example.application.service;
 
+import com.example.application.data.ClassEntity;
 import com.example.application.data.Reservation;
 import com.example.application.data.ReservationStatus;
 import com.example.application.data.User;
+import com.example.application.repository.ClassRepository;
 import com.example.application.repository.ReservationRepository;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +20,10 @@ import java.util.UUID;
 public class ReservationService {
 
     private final ReservationRepository reservationRepository;
+
+
+
+
 
     @Autowired
     public ReservationService(ReservationRepository reservationRepository) {
@@ -54,4 +61,6 @@ public class ReservationService {
     public void deleteReservation(Long id) {
         reservationRepository.deleteById(id);
     }
+
+
 }

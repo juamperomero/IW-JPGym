@@ -25,8 +25,6 @@ public class UserManagementService implements UserDetailsService {
     private final EmailService emailService;
     private final PasswordEncoder passwordEncoder;
 
-    private UserRepository userRepository;
-
     @Autowired
     public UserManagementService(UserRepository repository, EmailService emailService, PasswordEncoder passwordEncoder) {
         this.repository = repository;
@@ -35,6 +33,7 @@ public class UserManagementService implements UserDetailsService {
     }
 
 
+    @Transactional
     public boolean registerUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRegisterCode(UUID.randomUUID().toString().substring(0, 5));
@@ -99,7 +98,7 @@ public class UserManagementService implements UserDetailsService {
 
     @Transactional
     public User getUserWithReservations(UUID userId) {
-        User user = userRepository.findById(userId)
+        User user = repository.findById(userId)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
         // Acceder a la colección Lazy para inicializarla
