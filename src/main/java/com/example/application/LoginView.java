@@ -23,6 +23,9 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
     public LoginView(AuthenticatedUser authenticatedUser) {
         this.authenticatedUser = authenticatedUser;
 
+        // Añadir clase CSS personalizada
+        addClassName("login-view");
+
         // Crear el LoginForm
         loginForm = new LoginForm();
         loginForm.setAction(RouteUtil.getRoutePath(VaadinService.getCurrent().getContext(), getClass()));
@@ -74,4 +77,3 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
         loginForm.setError(event.getLocation().getQueryParameters().getParameters().containsKey("error"));
     }
 }
-

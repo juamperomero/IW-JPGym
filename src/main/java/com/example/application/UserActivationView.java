@@ -67,12 +67,12 @@ public class UserActivationView extends VerticalLayout {
         status.setVisible(true);
 
         if (service.activateUser(email.getValue(), secretCode.getValue())) {
-            status.setText("Congrats. The user has been activated");
+            status.setText("Felicitaciones. El usuario ha sido activado");
             add(new RouterLink("Log in", MainView.class));
 
 
         } else {
-            status.setText("Ups. The user could not be activated");
+            status.setText("Ups. El usuario no pudo ser activado");
         }
 
     }

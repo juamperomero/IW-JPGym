@@ -65,7 +65,7 @@ public class EmailRealService implements EmailService {
         MimeMessageHelper helper = new MimeMessageHelper(message, "utf-8");
 
         String subject = "Petición de reserva JPGym";
-        String body = "Tu petición para la clase de" + reservation.getClassEntity().getName() +
+        String body = "Tu petición para la clase de " + reservation.getClassEntity().getName() +
                 " ha sido " + reservation.getStatus().toString().toLowerCase() + ".";
 
         try {

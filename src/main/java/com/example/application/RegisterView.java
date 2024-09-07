@@ -45,15 +45,18 @@ public class RegisterView extends VerticalLayout {
     public RegisterView(UserManagementService service) {
         this.service = service;
 
+        // Añadir clase CSS personalizada
+        addClassName("register-view");
+
         // Crear los campos de entrada
-        title = new H1("Register User");
-        username = new TextField("Your username");
-        email = new EmailField("Your email");
-        password = new PasswordField("Your password");
-        password2 = new PasswordField("Repeat your password");
+        title = new H1("Registrar usuario");
+        username = new TextField("Nombre");
+        email = new EmailField("Email");
+        password = new PasswordField("Contraseña");
+        password2 = new PasswordField("Repite tu contraseña");
 
         // Crear el botón de registro
-        register = new Button("Register");
+        register = new Button("Registrar");
         register.addClassName("register-button");  // Añadir clase CSS personalizada
 
         // Crear el mensaje de estado
@@ -89,16 +92,15 @@ public class RegisterView extends VerticalLayout {
     public void onRegisterButtonClick() {
         if (binder.validate().isOk() && password.getValue().equals(password2.getValue())) {
             if (service.registerUser(binder.getBean())) {
-                status.setText("Great. Please check your email inbox!");
+                status.setText("Excelente. ¡Por favor revisa tu bandeja de entrada de correo electrónico!");
                 status.setVisible(true);
                 binder.setBean(new User());
                 password2.setValue("");
             } else {
-                Notification.show("Username is already in use");
+                Notification.show("El nombre está ya en uso");
             }
         } else {
-            Notification.show("Please, check input data");
+            Notification.show("Por favor, verifique los datos de entrada.");
         }
     }
 }
-

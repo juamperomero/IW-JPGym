@@ -2,3 +2,61 @@ h1 {
     font-size: 2em;
     margin: 0.67em 0;
 }
+
+import '@vaadin/vaadin-lumo-styles/all-imports';
+import './styles.css';
+
+.home-view {
+    padding: 20px;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.welcome-message {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.info-panel {
+    background: rgba(255, 255, 255, 0.8);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.reserve-message-container {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.quick-nav {
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.info-cards {
+    justify-content: center;
+}
+
+.info-card {
+    background: rgba(255, 255, 255, 0.8);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin: 10px;
+    text-align: center;
+}
+
+.card-title {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}
+
+.card-value {
+    font-size: 2em;
+    color: #007bff;
+}
