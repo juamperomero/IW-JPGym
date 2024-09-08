@@ -4,6 +4,7 @@ import com.example.application.data.Reservation;
 import com.example.application.data.User;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -16,6 +17,7 @@ import java.time.format.DateTimeFormatter;
 @Service
 public class EmailRealService implements EmailService {
     private final JavaMailSender mailSender;
+    private final HttpServletRequest request;
 
     @Value("${spring.mail.username}")
     private String defaultMail;
@@ -23,14 +25,17 @@ public class EmailRealService implements EmailService {
     @Value("${server.port}")
     private int serverPort;
 
-    public EmailRealService(JavaMailSender mailSender) {
+    public EmailRealService(JavaMailSender mailSender, HttpServletRequest request) {
         this.mailSender = mailSender;
+        this.request = request;
     }
 
     private String getServerUrl() {
-        String serverUrl = "http://";
-        serverUrl += InetAddress.getLoopbackAddress().getHostAddress();
-        serverUrl += ":" + serverPort + "/";
+        String serverUrl = request.getScheme() + "://" + request.getServerName();
+        if (request.getServerPort() != 80 && request.getServerPort() != 443) {
+            serverUrl += ":" + request.getServerPort();
+        }
+        serverUrl += "/";
         return serverUrl;
     }
 
