@@ -22,21 +22,22 @@ public class EmailRealService implements EmailService {
     @Value("${spring.mail.username}")
     private String defaultMail;
 
-    @Value("${server.port}")
-    private int serverPort;
 
     public EmailRealService(JavaMailSender mailSender, HttpServletRequest request) {
         this.mailSender = mailSender;
         this.request = request;
     }
 
+
     private String getServerUrl() {
+
         String serverUrl = request.getScheme() + "://" + request.getServerName();
         if (request.getServerPort() != 80 && request.getServerPort() != 443) {
             serverUrl += ":" + request.getServerPort();
         }
         serverUrl += "/";
         return serverUrl;
+
     }
 
     @Override
