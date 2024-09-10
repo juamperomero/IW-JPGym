@@ -18,4 +18,6 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     List<Reservation> findByStatus(ReservationStatus status);
     List<Reservation> findByClassEntityAndStatus(ClassEntity classEntity, ReservationStatus status);
     List<Reservation> findByClassEntity_ScheduleBetweenAndStatus(LocalDateTime start, LocalDateTime end, ReservationStatus status);
+
+    List<Reservation> findByStatusAndReminderSentFalse(ReservationStatus status);
 }

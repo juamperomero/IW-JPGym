@@ -18,7 +18,7 @@ import jakarta.annotation.security.PermitAll;
 import java.util.Optional;
 
 @PageTitle("Inicio")
-@Route(value = "home", layout = MainLayout.class)
+@Route(value = "", layout = MainLayout.class)
 @CssImport("./styles/shared-styles.css")
 @PermitAll
 public class MainView extends AppLayout {

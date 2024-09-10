@@ -71,7 +71,7 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
     public void beforeEnter(BeforeEnterEvent event) {
         if (authenticatedUser.get().isPresent()) {
             // Si ya está logueado
-            event.forwardTo("home");
+            event.forwardTo("");
         }
 
         loginForm.setError(event.getLocation().getQueryParameters().getParameters().containsKey("error"));
