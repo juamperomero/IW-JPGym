@@ -49,4 +49,5 @@ public class UserRestController {
     void deleteUser(@PathVariable Integer id) {
         // TODO
     }
+
 }

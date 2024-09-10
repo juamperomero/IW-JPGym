@@ -86,8 +86,8 @@ public class EmailRealService implements EmailService {
         MimeMessageHelper helper = new MimeMessageHelper(message, "utf-8");
 
         String subject = "Recordatorio de tu clase JPGym";
-        String body = "Este correo es un recordatorio para tu clase " + reservation.getClassEntity().getName() +
-                " mañana a la fecha y hora de " + reservation.getClassEntity().getSchedule().format(DateTimeFormatter.ofPattern("HH:mm dd/MM/yyyy")) + ".";
+        String body = "Este correo es un recordatorio para tu clase de " + reservation.getClassEntity().getName() +
+                " mañana a la hora y fecha de " + reservation.getClassEntity().getSchedule().format(DateTimeFormatter.ofPattern("HH:mm dd/MM/yyyy")) + ".";
 
         try {
             helper.setFrom(defaultMail);
