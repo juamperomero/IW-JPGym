@@ -37,8 +37,8 @@ public class EmailRealService implements EmailService {
 
         String subject = "¡Bienvenido!";
         String body = "Debes activar tu cuenta. "
-                + "Ingresa en " + serverUrl + "useractivation "
-                + "e introduce tu mail y el siguiente codigo: "
+                + "Ingresa en " + serverUrl + "useractivation?email=" + user.getEmail() + "&code=" + user.getRegisterCode()
+                + " e introduce tu mail y el siguiente código: "
                 + user.getRegisterCode();
 
         try {
