@@ -4,7 +4,6 @@ import com.example.application.data.Reservation;
 import com.example.application.data.User;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -20,23 +19,15 @@ public class EmailRealService implements EmailService {
     private static final Logger logger = LoggerFactory.getLogger(EmailRealService.class);
 
     private final JavaMailSender mailSender;
-    private final HttpServletRequest request;
 
     @Value("${spring.mail.username}")
     private String defaultMail;
 
-    public EmailRealService(JavaMailSender mailSender, HttpServletRequest request) {
-        this.mailSender = mailSender;
-        this.request = request;
-    }
+    @Value("${server.url}")
+    private String serverUrl;
 
-    private String getServerUrl() {
-        String serverUrl = request.getScheme() + "://" + request.getServerName();
-        if (request.getServerPort() != 80 && request.getServerPort() != 443) {
-            serverUrl += ":" + request.getServerPort();
-        }
-        serverUrl += "/";
-        return serverUrl;
+    public EmailRealService(JavaMailSender mailSender) {
+        this.mailSender = mailSender;
     }
 
     @Override
@@ -46,7 +37,7 @@ public class EmailRealService implements EmailService {
 
         String subject = "¡Bienvenido!";
         String body = "Debes activar tu cuenta. "
-                + "Dirigete hacia " + getServerUrl() + "useractivation "
+                + "Ingresa en " + serverUrl + "useractivation "
                 + "e introduce tu mail y el siguiente codigo: "
                 + user.getRegisterCode();
 
@@ -95,8 +86,8 @@ public class EmailRealService implements EmailService {
         MimeMessageHelper helper = new MimeMessageHelper(message, "utf-8");
 
         String subject = "Recordatorio de tu clase JPGym";
-        String body = "Este correo es un recordatorio para tu clase de " + reservation.getClassEntity().getName() +
-                " mañana a la hora y fecha de " + reservation.getClassEntity().getSchedule().format(DateTimeFormatter.ofPattern("HH:mm dd/MM/yyyy")) + ".";
+        String body = "Este correo es un recordatorio para tu clase " + reservation.getClassEntity().getName() +
+                " mañana a la fecha y hora de " + reservation.getClassEntity().getSchedule().format(DateTimeFormatter.ofPattern("HH:mm dd/MM/yyyy")) + ".";
 
         try {
             helper.setFrom(defaultMail);
